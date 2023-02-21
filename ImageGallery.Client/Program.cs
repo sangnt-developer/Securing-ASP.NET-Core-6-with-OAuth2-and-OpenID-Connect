@@ -16,13 +16,19 @@ builder.Services.AddControllersWithViews()
 // Not transform it to other different claim types based on WS-Security (Microsoft).
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+
+// Add required services for require access token.
+builder.Services.AddAccessTokenManagement();
+
 // create an HttpClient used for accessing the API
 builder.Services.AddHttpClient("APIClient", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ImageGalleryAPIRoot"]);
     client.DefaultRequestHeaders.Clear();
     client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-});
+})
+// Add handler to attach bearer token to outgoing requests to API.
+.AddUserAccessTokenHandler();
 
 builder.Services.AddAuthentication(options =>
 {
