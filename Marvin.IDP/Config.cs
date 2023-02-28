@@ -23,6 +23,10 @@ public static class Config
                     "imagegalleryapi.fullaccess",
                     "imagegalleryapi.read",
                     "imagegalleryapi.write",
+                },
+                ApiSecrets =
+                {
+                    new Secret("apisecret".Sha256())
                 }
             }
         };
@@ -43,6 +47,12 @@ public static class Config
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Code,
+                    AccessTokenType = AccessTokenType.Reference,
+                    AllowOfflineAccess = true,
+                    AccessTokenLifetime = 120,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    // AuthorizationCodeLifetime = ...
+                    // IdentityTokenLifetime = ...
                     RedirectUris =
                     {
                         "https://localhost:7184/signin-oidc"

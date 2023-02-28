@@ -31,6 +31,11 @@ builder.Services.AddHttpClient("APIClient", client =>
 // Add handler to attach bearer token to outgoing requests to API.
 .AddUserAccessTokenHandler();
 
+builder.Services.AddHttpClient("IDPClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5001/");
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -74,6 +79,7 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("imagegalleryapi.read");
     options.Scope.Add("imagegalleryapi.write");
     options.Scope.Add("country");
+    options.Scope.Add("offline_access");
 
     options.ClaimActions.MapJsonKey("role", "role");
     options.ClaimActions.MapUniqueJsonKey("country", "country");
