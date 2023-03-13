@@ -10,6 +10,18 @@ internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        // Configures IIS our-of-proc settings
+        builder.Services.Configure<IISOptions>(options =>
+        {
+            options.AuthenticationDisplayName = "Windows";
+            options.AutomaticAuthentication = false;
+        });
+        // ..or configures IIS in-proc settings
+        builder.Services.Configure<IISServerOptions>(options => {
+            options.AuthenticationDisplayName = "Windows";
+            options.AutomaticAuthentication = false;
+        });
+
         // uncomment if you want to add a UI
         builder.Services.AddRazorPages();
 
