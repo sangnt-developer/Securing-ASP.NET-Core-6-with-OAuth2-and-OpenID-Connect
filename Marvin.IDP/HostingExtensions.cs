@@ -1,3 +1,4 @@
+using Duende.IdentityServer;
 using Marvin.IDP.DbContexts;
 using Marvin.IDP.Services;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +44,22 @@ internal static class HostingExtensions
         .AddInMemoryApiScopes(Config.ApiScopes)
         .AddInMemoryApiResources(Config.ApiResources)
         .AddInMemoryClients(Config.Clients);
+
+        builder.Services
+            .AddAuthentication()
+            .AddOpenIdConnect("AAD", "Azure Active Directory", options =>
+            {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                options.Authority = "https://login.microsoftonline.com/6d0f1164-b591-4a96-8cf2-b478ed138977/v2.0";
+                options.ClientId = "5bfd2164-152f-4037-8441-c8fa80c3d93b";
+                options.ClientSecret = ".WK8Q~n89yhVxRxD~Ezu9OKJtB6y4Bd.Ubl4vbs2";
+                options.ResponseType = "code";
+                options.CallbackPath = new PathString("/signin-aad/");
+                options.SignedOutCallbackPath = new PathString("/signout-aad/");
+                options.Scope.Add("email");
+                options.Scope.Add("offline_access");
+                options.SaveTokens = true;
+            });
 
         return builder.Build();
     }

@@ -81,7 +81,7 @@ public class Callback : PageModel
 
         // issue authentication cookie for user
         //var isuser = new IdentityServerUser(user.SubjectId)
-        //{
+        //{ 
         //    DisplayName = user.Username,
         //    IdentityProvider = provider,
         //    AdditionalClaims = additionalLocalClaims
